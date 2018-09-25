@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <title>RailsBlog</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+  </head>
+
+  <body style="background-color: #F7F4EA">
+    <header>
+        <nav>
+        <!-- <a href="<%= root_path %> ">Home</a>-->
+          <%= link_to("Home", root_path) %> |
+          <% if user_signed_in? %>
+          <%= link_to("New Idea", new_idea_path)%> |
+          <% end %>  
+          
+          <% if user_signed_in? %> 
+          <span><%= link_to(current_user.first_name) %></span>
+          | <%= link_to("Sign Out", session_path, method: :delete) %> |
+          <%else%>
+          <%= link_to("Sign In", new_session_path)%> |
+          <%= link_to("Register", new_user_path)%> |
+          <% end %>
+        </nav> 
+      </header>
+    <%= yield %>
+  </body>
+</html>

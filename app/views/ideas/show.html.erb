@@ -1,0 +1,126 @@
+<br>
+<br>
+<div class="m-3 border rounded" style="background-color: #F7F4EA">   
+    <div style="background-color: #d4e1f7" class="pb-2">
+        <div class="row">
+            <div class="col"> 
+            </div>
+            <div style="overflow-wrap: break-word;" class ="col-8 d-flex justify-content-center text-center text-dark
+             rounded mb-3">
+                <h1 style="font-size:8vw">
+                    <%= @idea.title.titleize%>
+                </h1>
+            </div>
+            <div class ="col"> 
+            </div>
+        </div>
+        <div class="row">
+            <div class="col p-0"> 
+            </div>
+            <div class="border p-2 d-flex justify-content-center rounded col-6 ml-4">
+                <h4 class="mb-2">Author: <%= @idea.user&.first_name%> <%= @idea.user&.last_name%></h4>        
+            </div>
+            <div class="col">
+            </div>
+        </div>
+        </br>
+        <div class ="d-flex justify-content-center">
+            <div class="border p-2 mb-3 rounded w-75" style="overflow-wrap: break-word; background-color: #C0B9DD">
+                <%=@idea.body%> 
+            </div> 
+        </div>   
+        <div class ="d-flex justify-content-end">      
+            <div>
+            <small>
+                Created <%= time_ago_in_words(@idea.created_at) %> ago 🕑 <br/>
+            </small>
+
+            <% if @idea.edited? %>
+            <small>
+                Last edited <%= time_ago_in_words(@idea.updated_at) %> ago
+            </small>
+            ⭐️
+            <% end %>
+            
+       
+    
+    
+
+
+    <% if user_signed_in? && can?(:crud, @idea) %>
+        <div class="btn btn-warning btn-sm">
+    <%= link_to(
+        "Edit",
+        edit_idea_path(@idea.id), 
+         style: 'color:#FFFFFF;'
+    ) %>
+        </div>
+        <div class ="btn btn-danger btn-sm">
+    <%= link_to(
+        "Delete",
+        idea_path(@idea.id),
+        style: 'color:#FFFFFF;',
+        method: :delete,
+        data: { confirm: "Delete Idea?"}
+    ) %>
+    <% end %>
+    </div>
+     </div>
+    </div>
+    </div>
+
+    
+    <div>
+    <% if user_signed_in? %>
+    <%= render "reviews/form" %>
+    <% end %>
+
+    <ul class="review-list">
+    <% @reviews.each do |review| %>
+        <li class="border rounded p-2 my-2 w-75" style="overflow-wrap: break-word; background-color: #d4e1f7">
+        
+            <strong> <%= review.user&.first_name || "[deleted]" %> </strong>
+            <br/>
+            <div class="border pt-2 mt-2 rounded w-75" style="overflow-wrap: break-word;">
+            <div class ="text-left rounded p-2" style="overflow-wrap: break-word; background-color: #C0B9DD "><%= review.body %></div>
+            <% if user_signed_in? %>
+            <br/>
+            <% if can?(:update, review) %>
+            
+                <small>
+                <%=link_to(
+                "Edit",
+                edit_review_path(review),
+                ) %>
+                </small>
+                |
+            <% end %> 
+            
+            <% end %>
+            <% if can?(:delete, review) %>
+                <small>
+                <%=link_to(
+                    "Delete",
+                    review_path(review),
+                    method: :delete,
+                    data: {confirm: "Are you sure?"}
+                    ) %>
+                </small>
+            &nbsp ⭐️
+            <% end %>
+            <small>
+            Created <%= time_ago_in_words(review.created_at) %> ago
+            </small>
+            <% if review.edited? %>
+            <br/>
+            <small>
+                Last edited <%= time_ago_in_words(review.updated_at) %> ago
+            </small>
+            <% end %>
+    <% end %>
+        
+        </li>
+    </ul>
+    </div>
+</div>
+</div>

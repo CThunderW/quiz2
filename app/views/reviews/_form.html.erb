@@ -1,0 +1,20 @@
+<div class="p-3">
+<%= form_for [@idea, @review] do |f| %>
+  <% if @review.errors.present? %>
+    <p>
+      <%= @review.errors.full_messages.join(", ") %>
+    </p>
+  <% end %>
+
+  <div>
+    <%= f.text_area(
+      :body,
+      rows: 5,
+      placeholder: "What are your thoughts?",
+      style: "width:77%"
+    ) %>
+  </div>
+
+  <%= f.submit "Submit" %>
+<% end %>
+</div>
